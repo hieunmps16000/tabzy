@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tabzy</title>
+        <link rel="stylesheet" href="./src/tabzy.css" />
+    </head>
+    <body>
+        <!-- Container -->
+        <ul id="tabs">
+            <!-- Tabs -->
+            <li><a href="#tab1">Tab 1</a></li>
+            <li><a href="#tab2">Tab 2</a></li>
+            <li><a href="#tab3">Tab 3</a></li>
+        </ul>
+
+        <!-- Panels -->
+        <div class="tabzy__content" id="tab1">Tab1 content</div>
+        <div class="tabzy__content" id="tab2">Tab2 content</div>
+        <div class="tabzy__content" id="tab3">Tab3 content</div>
+
+        <!-- <script src="./sandbox/tabzy.js"></script> -->
+        <script src="./src/tabzy.js"></script>
+        <script>
+            const tab = new Tabzy("#tabs");
+            // tab.toggle("#tab3");
+            // tab.destroy();
+        </script>
+    </body>
+</html>
