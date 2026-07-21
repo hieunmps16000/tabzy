@@ -1,11 +1,4 @@
 function Tabzy(selector, options = {}) {
-    this.opt = Object.assign(
-        {
-            memory: false,
-        },
-        options,
-    );
-
     this.container = document.querySelector(selector);
     if (!this.container) {
         console.error(`Tabzy: No container found for selector ${selector}`);
@@ -16,26 +9,33 @@ function Tabzy(selector, options = {}) {
         console.error(`Tabzy: No tabs found inside the container`);
         return;
     }
+
     this.panels = this.tabs
         .map((tab) => {
             const panel = document.querySelector(tab.getAttribute("href"));
             if (!panel) {
-                console.error("Tabzy: No panel found");
+                console.error("Tabzy: No found tabs");
             }
             return panel;
         })
         .filter(Boolean);
-    if (this.tabs.length !== this.panels.length) {
-        return;
-    }
-    this._originalHTML = this.container.innerHTML;
+
+    if (this.tabs.length !== this.panels.length) return;
+
+    this.opt = Object.assign(
+        {
+            memory: false,
+        },
+        options,
+    );
+
     this._init();
 }
 
 Tabzy.prototype._init = function () {
     const hash = location.hash;
     const tab = (this.opt.memory && hash && this.tabs.find((tab) => tab.getAttribute("href") === hash)) || this.tabs[0];
-    this._activateTab(tab);
+    this._activeTab(tab);
 
     this.tabs.forEach((tab) => {
         tab.onclick = (event) => {
@@ -46,16 +46,22 @@ Tabzy.prototype._init = function () {
 
 Tabzy.prototype._handleTabClick = function (event, tab) {
     event.preventDefault();
-    this._activateTab(tab);
+    this._activeTab(tab);
 };
 
-Tabzy.prototype._activateTab = function (tab) {
+Tabzy.prototype._activeTab = function (tab) {
+    // Remove class tabzy--active
     this.tabs.forEach((tab) => {
         tab.closest("li").classList.remove("tabzy--active");
     });
+
+    // Add class tabzy--active
     tab.closest("li").classList.add("tabzy--active");
 
+    // Hidden panels
     this.panels.forEach((panel) => (panel.hidden = true));
+
+    // Show panel
     const panelActive = document.querySelector(tab.getAttribute("href"));
     panelActive.hidden = false;
 
@@ -65,29 +71,28 @@ Tabzy.prototype._activateTab = function (tab) {
 };
 
 Tabzy.prototype.switch = function (input) {
-    let tabToActivate = null;
+    let tabToActive = null;
     if (typeof input === "string") {
-        tabToActivate = this.tabs.find((tab) => {
+        tabToActive = this.tabs.find((tab) => {
             return tab.getAttribute("href") === input;
         });
-        if (!tabToActivate) {
-            console.error(`Tabzy: No panel with ID ${input}`);
+        if (!tabToActive) {
+            console.error(`Tabzy: No panel found with ID: ${input}`);
             return;
         }
     } else if (this.tabs.includes(input)) {
-        tabToActivate = input;
+        tabToActive = input;
     }
-    if (!tabToActivate) {
+    if (!tabToActive) {
         console.error(`Tabzy: Invalid input ${input}`);
         return;
     }
-    this._activateTab(tabToActivate);
+    this._activeTab(tabToActive);
 };
 
 Tabzy.prototype.destroy = function () {
-    this.container.innerHTML = this._originalHTML;
+    this.tabs.forEach((tab) => {
+        tab.closest("li").classList.remove("tabzy--active");
+    });
     this.panels.forEach((panel) => (panel.hidden = false));
-    this.container = null;
-    this.tabs = null;
-    this.panels = null;
 };

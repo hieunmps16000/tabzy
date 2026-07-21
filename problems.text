@@ -1,0 +1,6 @@
+1. Làm sao để lấy ra một phần tử thỏa mãn điều kiện từ một mảng. Kết quả trả về là phần tử đó chứ không phải là một mảng mới.
+-> Find()
+
+2. Hàm destroy xử lý phần loại bỏ onclick như thế nào?
+3. Hàm switch truyền thêm elementTab thì xử lý như thế nào?
+4. Đưa id panel tên url như thế nào mà vẫn loại bỏ hành vi mặc định của trình duyệt.
