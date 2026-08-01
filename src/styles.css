@@ -429,7 +429,7 @@ html.dark .button-toggle-theme {
     color: var(--primary-color);
 }
 
-.tabzy--active::after {
+.tabzy-tabs:not(.sliding) .tabzy--active::after {
     content: "";
     position: absolute;
     bottom: -1px;
@@ -443,4 +443,19 @@ html.dark .button-toggle-theme {
     padding: 20px;
     border-radius: 15px;
     border: 1px solid var(--border-color);
+}
+
+.tabzy-wrapper {
+    position: relative;
+}
+
+.active-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition:
+        transform 0.3s ease-in,
+        width 0.3s ease-in;
 }

@@ -52,7 +52,7 @@ Tabzy.prototype._init = function () {
         this.tabs[0];
 
     this._activateTab(tab, false, false);
-    this._currentTab = tab;
+    this.currentTab = tab;
 
     this.tabs.forEach((tab) => {
         tab.onclick = (event) => {
@@ -92,8 +92,8 @@ Tabzy.prototype._escapeSpecialKeywords = function (input) {
 };
 
 Tabzy.prototype._tryActivateTab = function (tab) {
-    if (this._currentTab !== tab) {
-        this._currentTab = tab;
+    if (this.currentTab !== tab) {
+        this.currentTab = tab;
         this._activateTab(tab);
     }
 };
@@ -124,5 +124,5 @@ Tabzy.prototype.destroy = function () {
     this.container = null;
     this.tabs = null;
     this.panels = null;
-    this._currentTab = null;
+    this.currentTab = null;
 };

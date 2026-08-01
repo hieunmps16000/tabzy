@@ -6,7 +6,6 @@
         <title>Tabzy.js: A Vanilla JavaScript Modal Library</title>
         <link rel="shortcut icon" href="./src/favicon.png" type="image/x-icon" />
         <link rel="stylesheet" href="./vendor/prism.css" />
-        <link rel="stylesheet" href="./tabzy.min.css" />
         <link rel="stylesheet" href="./src/styles.css" />
     </head>
     <body>
@@ -70,12 +69,15 @@
 
                     <article class="example">
                         <h3 class="section-heading section-heading--lv3">3. Sliding Line Tabs Demo</h3>
-                        <ul id="sliding-tabs" class="tabzy-tabs">
-                            <li><a href="#slide1">Home</a></li>
-                            <li><a href="#slide2">About</a></li>
-                            <li><a href="#slide3">Services</a></li>
-                            <li><a href="#slide4">Portfolio</a></li>
-                        </ul>
+                        <div class="tabzy-wrapper">
+                            <ul id="sliding-tabs" class="tabzy-tabs sliding">
+                                <li><a href="#slide1">Home</a></li>
+                                <li><a href="#slide2">About</a></li>
+                                <li><a href="#slide3">Services</a></li>
+                                <li><a href="#slide4">Portfolio</a></li>
+                            </ul>
+                            <div class="active-line"></div>
+                        </div>
                         <div id="slide1" class="tabzy-panel">Welcome to the Home tab!</div>
                         <div id="slide2" class="tabzy-panel">About us and our mission.</div>
                         <div id="slide3" class="tabzy-panel">Our services in detail.</div>
@@ -119,11 +121,6 @@
                     </p>
                     <p>Include the Tabzy JavaScript file in your project:</p>
                     <pre><code class="language-js">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/hieunmps16000/Tabzy@v1.0.3/Tabzy.min.js&quot;&gt;&lt;/script&gt;</code></pre>
-                    <p>Optionally, include the Tabzy CSS file for default styling:</p>
-                    <pre><code class="language-js">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/hieunmps16000/Tabzy@v1.0.3/Tabzy.min.css&quot;&gt;</code></pre>
-                    <!-- <blockquote class="quote">
-                        <p>You can use the <a href="">released</a> versions of Tabzy available here.</p>
-                    </blockquote> -->
                 </section>
 
                 <!-- Use -->
@@ -254,11 +251,29 @@ tabs.destroy();</code></pre>
             };
         </script>
         <script>
+            // Tabs 1
             const tabs1 = new Tabzy("#basic-tabs");
+
+            // Tabs 2
             const tabs2 = new Tabzy("#persistent-tabs", {
                 remember: true,
             });
-            const tabs3 = new Tabzy("#sliding-tabs");
+
+            // Tabs 3
+            const tabs3 = new Tabzy("#sliding-tabs", {
+                remember: true,
+                onChange: slidingTab,
+            });
+            function slidingTab() {
+                const tabActive = tabs3.currentTab;
+                const tabLi = tabActive.closest("li");
+                const activeLine = tabs3.container.nextElementSibling;
+                Object.assign(activeLine.style, {
+                    width: `${tabActive.offsetWidth}px`,
+                    transform: `translateX(${tabLi.offsetLeft}px)`,
+                });
+            }
+            slidingTab();
         </script>
     </body>
 </html>
